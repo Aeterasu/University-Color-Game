@@ -1,19 +1,27 @@
-[gd_scene load_steps=2 format=3 uid="uid://gt53yron4ijd"]
+[gd_scene load_steps=4 format=3 uid="uid://gt53yron4ijd"]
 
 [ext_resource type="Script" uid="uid://bofuuilv7o8gi" path="res://game/game.gd" id="1_l1rk1"]
+[ext_resource type="FontFile" uid="uid://dh8sgn0vm5qi3" path="res://ui/font/superstar_memesbruh03.ttf" id="2_vasa2"]
 
-[node name="Game" type="Node" node_paths=PackedStringArray("label")]
+[sub_resource type="LabelSettings" id="LabelSettings_h7iqs"]
+font = ExtResource("2_vasa2")
+
+[node name="Game" type="Node" node_paths=PackedStringArray("label_center", "label")]
 script = ExtResource("1_l1rk1")
-label = NodePath("CanvasLayer/Label")
+label_center = NodePath("CanvasLayer/CenterContainer")
+label = NodePath("CanvasLayer/CenterContainer/Label")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Label" type="Label" parent="CanvasLayer"]
-anchors_preset = 14
-anchor_top = 0.5
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer"]
+anchors_preset = 15
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -11.5
-offset_bottom = 11.5
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_h7iqs")
+horizontal_alignment = 1
+vertical_alignment = 1
