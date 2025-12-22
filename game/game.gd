@@ -38,10 +38,27 @@ func generate_new_question() -> void:
 		.set_ease(Tween.EASE_OUT)
 
 func confirm() -> void:
-	pass
+	if not current_question:
+		return
+
+	if current_question.text_color == current_question.display_name:
+		on_correct_answer()
+	else:
+		on_wrong_answer()
 
 func deny() -> void:
-	pass
+	if not current_question:
+		return
+
+	if current_question.text_color != current_question.display_name:
+		on_correct_answer()
+	else:
+		on_wrong_answer()
 
 func on_correct_answer() -> void:
+	generate_new_question()
+
 	scoring.award_score()
+
+func on_wrong_answer() -> void:
+	get_tree().quit()

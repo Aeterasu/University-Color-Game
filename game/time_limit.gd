@@ -1,0 +1,1 @@
+class_name TimeLimit extends Node
