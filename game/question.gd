@@ -9,7 +9,7 @@ static func generate_new_question() -> Question:
     var count = Stroop.Colors.size()
 
     var r = randf()
-    if r < 0.5:
+    if r < 0.75:
         result.text_color = randi() % count as Stroop.Colors
         result.display_name = randi() % count as Stroop.Colors
     else:

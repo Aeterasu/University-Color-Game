@@ -1,3 +1,6 @@
 - color questions
 - scoring
 - time limit
+    - different messages when running out of time and answering wrong
+
+- guarantee the first 3 are always correct

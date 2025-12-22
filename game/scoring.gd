@@ -5,6 +5,8 @@ var score : int = 0:
         value = maxi(value, 0)
 
         score = value
+
+        print(score)
     get():
         return score
 

@@ -4,10 +4,15 @@ class_name Game extends Node
 @export var label : Label = null
 var current_question : Question = null
 
+var time_limit : TimeLimit = null
 var scoring : Scoring = null
 
 func _ready() -> void:
 	scoring = Scoring.new()
+	time_limit = TimeLimit.new()
+	time_limit.on_ran_out_of_time.connect(on_ran_out_of_time)
+
+	add_child(time_limit)
 
 	generate_new_question()
 
@@ -57,8 +62,12 @@ func deny() -> void:
 
 func on_correct_answer() -> void:
 	generate_new_question()
+	time_limit.reset()
 
 	scoring.award_score()
 
 func on_wrong_answer() -> void:
 	get_tree().quit()
+
+func on_ran_out_of_time() -> void:
+	on_wrong_answer()
