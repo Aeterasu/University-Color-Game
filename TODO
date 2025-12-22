@@ -1,7 +1,7 @@
 + color questions
 + scoring
 + time limit
-    - different messages when running out of time and answering wrong
++ guarantee the first 3 are always correct
 
-- guarantee the first 3 are always correct
+- different messages when running out of time and answering wrong
 - best score label

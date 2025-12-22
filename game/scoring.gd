@@ -6,9 +6,12 @@ var score : int = 0:
 
         score = value
 
-        print(score)
+        if score > personal_best:
+            personal_best = score
     get():
         return score
+
+static var personal_best : int = 0
 
 func award_score() -> void:
     score += 1

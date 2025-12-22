@@ -10,11 +10,11 @@ enum Colors
 static func get_color_name(color_enum : Stroop.Colors) -> String:
     match color_enum:
         Stroop.Colors.RED:
-            return "Red"
+            return "Red".to_upper()
         Stroop.Colors.BLUE:
-            return "Blue"
+            return "Blue".to_upper()
         Stroop.Colors.GREEN:
-            return "Green"
+            return "Green".to_upper()
         _:
             return ""
 

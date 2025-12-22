@@ -10,6 +10,8 @@ var time_limit : TimeLimit = null
 @export var score_label : Label = null
 var scoring : Scoring = null
 
+var answer_count : int = 0
+
 func _ready() -> void:
 	scoring = Scoring.new()
 	time_limit = TimeLimit.new()
@@ -33,7 +35,7 @@ func _physics_process(delta: float) -> void:
 	if scoring:
 		score_label.text = str(scoring.score) + " SCORE"\
 		+ "\n" +\
-		str(999) + " BEST"
+		str(scoring.personal_best) + " BEST"
 
 	if Input.is_action_just_pressed("input_confirm"):
 		confirm()
@@ -42,10 +44,25 @@ func _physics_process(delta: float) -> void:
 		deny()
 
 func generate_new_question() -> void:
-	current_question = Question.generate_new_question()
+	if answer_count == 0:
+		current_question = Question.new()
+		current_question.text_color = Stroop.Colors.RED
+		current_question.display_name = Stroop.Colors.RED
+	elif answer_count == 1:
+		current_question = Question.new()
+		current_question.text_color = Stroop.Colors.GREEN
+		current_question.display_name = Stroop.Colors.GREEN
+	elif answer_count == 2:
+		current_question = Question.new()
+		current_question.text_color = Stroop.Colors.BLUE
+		current_question.display_name = Stroop.Colors.BLUE
+	else:
+		current_question = Question.generate_new_question()
 
 	label.modulate = Stroop.get_color_value(current_question.text_color)
 	label.text = Stroop.get_color_name(current_question.display_name)
+
+	answer_count += 1
 
 	# animate this
 
