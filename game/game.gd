@@ -2,22 +2,36 @@ class_name Game extends Node
 
 @export var label_center : Control = null
 @export var label : Label = null
+@export var padding : Control = null
 var current_question : Question = null
 
-@export var time_progress_bar : ProgressBar = null
+@export var time_progress_bar : TextureProgressBar = null
 var time_limit : TimeLimit = null
 
 @export var score_label : Label = null
 var scoring : Scoring = null
 
+@export var flash : ColorRect = null
+
 var answer_count : int = 0
+
+var game_over : bool = false
+@export var game_over_screen : Control = null
+
+@export var particles : CPUParticles2D = null
+
+@export var transition : Transition = null
 
 func _ready() -> void:
 	scoring = Scoring.new()
 	time_limit = TimeLimit.new()
 	time_limit.on_ran_out_of_time.connect(on_ran_out_of_time)
 
+	transition.animation_mid_point.connect(on_game_over_transition)
+
 	add_child(time_limit)
+
+	game_over_screen.hide()
 
 	generate_new_question()
 
@@ -27,6 +41,9 @@ func _input(event: InputEvent) -> void:
 			generate_new_question()
 
 func _physics_process(delta: float) -> void:
+	if game_over:
+		return
+
 	if current_question:
 		time_progress_bar.min_value = 0.0
 		time_progress_bar.max_value = time_limit.base_limit
@@ -59,7 +76,7 @@ func generate_new_question() -> void:
 	else:
 		current_question = Question.generate_new_question()
 
-	label.modulate = Stroop.get_color_value(current_question.text_color)
+	label.label_settings.font_color = Stroop.get_color_value(current_question.text_color)
 	label.text = Stroop.get_color_name(current_question.display_name)
 
 	answer_count += 1
@@ -67,10 +84,35 @@ func generate_new_question() -> void:
 	# animate this
 
 	var tween : Tween = create_tween()
-	tween.tween_property(label_center, "position", Vector2.ZERO, 0.5)\
+	tween.set_parallel(true)
+
+	tween.tween_property(label_center, "position", Vector2.ZERO, 0.3)\
 		.from(Vector2.UP * 32.0)\
 		.set_trans(Tween.TRANS_BACK)\
 		.set_ease(Tween.EASE_OUT)
+
+	tween.tween_property(label_center, "scale", Vector2.ONE, 0.2)\
+		.from(Vector2.ONE * 2.0)\
+		.set_trans(Tween.TRANS_BACK)\
+		.set_ease(Tween.EASE_OUT)
+
+	tween.tween_property(padding, "position", Vector2(0.0, 72.0), 0.3)\
+		.from(Vector2(0.0, 72.0) + Vector2.UP * 32.0)\
+		.set_trans(Tween.TRANS_BACK)\
+		.set_ease(Tween.EASE_OUT)
+
+	var create_particles = func(): 
+		var p = particles.duplicate()
+		add_child(p)
+		p.global_position = Vector2(320.0 * 0.5, 180.0 * 0.5)
+		p.emitting = true
+		p.modulate = Stroop.get_color_value(current_question.text_color)
+
+	tween.tween_callback(create_particles).set_delay(0.1)
+
+	var flash_tween : Tween = create_tween()
+	flash_tween.tween_property(flash, "modulate:a", 0.8, 0.05).from(0.0)
+	flash_tween.tween_property(flash, "modulate:a", 0.0, 0.5).from(0.8)
 
 func confirm() -> void:
 	if not current_question:
@@ -97,7 +139,17 @@ func on_correct_answer() -> void:
 	scoring.award_score()
 
 func on_wrong_answer() -> void:
-	get_tree().quit()
+	fail()
 
 func on_ran_out_of_time() -> void:
-	on_wrong_answer()
+	fail()
+
+func fail() -> void:
+	time_limit.is_stopped = true
+	game_over = true
+
+	transition.color = Stroop.get_color_value(current_question.text_color)
+	transition.animate()
+
+func on_game_over_transition() -> void:
+	game_over_screen.show()
