@@ -4,7 +4,10 @@ class_name Game extends Node
 @export var label : Label = null
 var current_question : Question = null
 
+@export var time_progress_bar : ProgressBar = null
 var time_limit : TimeLimit = null
+
+@export var score_label : Label = null
 var scoring : Scoring = null
 
 func _ready() -> void:
@@ -22,6 +25,16 @@ func _input(event: InputEvent) -> void:
 			generate_new_question()
 
 func _physics_process(delta: float) -> void:
+	if current_question:
+		time_progress_bar.min_value = 0.0
+		time_progress_bar.max_value = time_limit.base_limit
+		time_progress_bar.value = time_limit.time_left
+
+	if scoring:
+		score_label.text = str(scoring.score) + " SCORE"\
+		+ "\n" +\
+		str(999) + " BEST"
+
 	if Input.is_action_just_pressed("input_confirm"):
 		confirm()
 

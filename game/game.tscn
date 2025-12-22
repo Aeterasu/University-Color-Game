@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://gt53yron4ijd"]
+[gd_scene load_steps=6 format=3 uid="uid://gt53yron4ijd"]
 
 [ext_resource type="Script" uid="uid://bofuuilv7o8gi" path="res://game/game.gd" id="1_l1rk1"]
 [ext_resource type="FontFile" uid="uid://dh8sgn0vm5qi3" path="res://ui/font/superstar_memesbruh03.ttf" id="2_vasa2"]
@@ -6,12 +6,40 @@
 [sub_resource type="LabelSettings" id="LabelSettings_h7iqs"]
 font = ExtResource("2_vasa2")
 
-[node name="Game" type="Node" node_paths=PackedStringArray("label_center", "label")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vasa2"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 0.94509804, 0.9098039, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h7iqs"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.7607843, 0.7647059, 0.78039217, 1)
+
+[node name="Game" type="Node" node_paths=PackedStringArray("label_center", "label", "time_progress_bar", "score_label")]
 script = ExtResource("1_l1rk1")
 label_center = NodePath("CanvasLayer/CenterContainer")
 label = NodePath("CanvasLayer/CenterContainer/Label")
+time_progress_bar = NodePath("CanvasLayer/ProgressBar")
+score_label = NodePath("CanvasLayer/ScoreLabel")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer"]
+modulate = Color(0.7607843, 0.7647059, 0.78039217, 1)
+offset_left = 222.0
+offset_top = 8.0
+offset_right = 319.0
+offset_bottom = 43.0
+text = "SCORE: 0
+BEST: 999"
+label_settings = SubResource("LabelSettings_h7iqs")
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer"]
 anchors_preset = 15
@@ -25,3 +53,14 @@ layout_mode = 2
 label_settings = SubResource("LabelSettings_h7iqs")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 8.0
+grow_horizontal = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_vasa2")
+theme_override_styles/fill = SubResource("StyleBoxFlat_h7iqs")
+step = 0.0
+value = 50.0
+show_percentage = false
