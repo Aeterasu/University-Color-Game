@@ -17,6 +17,7 @@ var scoring : Scoring = null
 var answer_count : int = 0
 
 var game_over : bool = false
+var await_restart_input : bool = false
 @export var game_over_screen : Control = null
 @export var game_over_score_label : Label = null
 @export var game_over_best_label : Label = null
@@ -51,6 +52,12 @@ func _input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	if game_over:
+		if await_restart_input and \
+			(Input.is_action_just_pressed("input_confirm") or \
+			Input.is_action_just_pressed("input_deny")):
+				Main.instance.load_state(Main.State.GAME)
+				await_restart_input = false
+
 		return
 
 	if current_question:
@@ -175,6 +182,8 @@ func fail() -> void:
 			texture = texture_game_over_screen_blue
 	
 	game_over_screen_backdrop.texture = texture
+
+	get_tree().create_timer(0.8).timeout.connect(func(): await_restart_input = true)
 
 func on_game_over_transition() -> void:
 	game_over_screen.show()

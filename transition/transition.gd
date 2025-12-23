@@ -43,6 +43,7 @@ func animate() -> void:
 		var square = squares[i]
 		square.modulate = color
 		
+		@warning_ignore("integer_division")
 		var grid_x : int = i / COLUMNS
 		var grid_y : int = i % COLUMNS
 

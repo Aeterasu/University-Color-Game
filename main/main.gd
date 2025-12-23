@@ -20,7 +20,11 @@ var current_state : State = State.DEFAULT
 
 var is_loading : bool = false
 
+static var instance : Main = null
+
 func _ready() -> void:
+	instance = self
+
 	load_state(State.GAME)
 
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
