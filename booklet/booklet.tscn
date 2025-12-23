@@ -138,9 +138,9 @@ autowrap_mode = 2
 position = Vector2(0, 180)
 
 [node name="ColorRect" type="ColorRect" parent="Page2"]
-offset_top = 29.0
+offset_top = 16.0
 offset_right = 320.0
-offset_bottom = 125.0
+offset_bottom = 112.0
 color = Color(0.37254903, 0.34117648, 0.30980393, 1)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Page2/ColorRect"]
@@ -167,9 +167,9 @@ scroll_active = false
 shortcut_keys_enabled = false
 
 [node name="ColorRect2" type="ColorRect" parent="Page2"]
-offset_top = 159.0
+offset_top = 146.0
 offset_right = 320.0
-offset_bottom = 172.0
+offset_bottom = 159.0
 color = Color(0.37254903, 0.34117648, 0.30980393, 1)
 
 [node name="Label" type="Label" parent="Page2/ColorRect2"]

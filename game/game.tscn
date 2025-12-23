@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://gt53yron4ijd"]
+[gd_scene load_steps=29 format=3 uid="uid://gt53yron4ijd"]
 
 [ext_resource type="Script" uid="uid://bofuuilv7o8gi" path="res://game/game.gd" id="1_l1rk1"]
 [ext_resource type="Texture2D" uid="uid://emjva1qr1hq0" path="res://game/texture/texture_backdrop.png" id="2_u5opy"]
@@ -10,11 +10,107 @@
 [ext_resource type="Texture2D" uid="uid://cjfxf6kk1t428" path="res://game/texture/texture_backdrop_blue.png" id="4_ee6o4"]
 [ext_resource type="Texture2D" uid="uid://toqoskjerrr5" path="res://game/texture/texture_panel_1.png" id="4_l8g03"]
 [ext_resource type="Texture2D" uid="uid://b4sbx8p75vl8l" path="res://game/texture/texture_progress_bar_fill.png" id="5_u5opy"]
+[ext_resource type="Texture2D" uid="uid://dxb25hl5lfe5f" path="res://game/texture/texture_fx_mouse.png" id="7_ee6o4"]
+[ext_resource type="Texture2D" uid="uid://d64q4ur2jdwe" path="res://game/texture/texture_fx_mouse_button.png" id="8_4cobl"]
+[ext_resource type="Script" uid="uid://cj5iatk7ocduk" path="res://game/mouse.gd" id="8_ln7ps"]
 [ext_resource type="Texture2D" uid="uid://bm5wbcnk8r76i" path="res://game/texture/texture_nine_panel.png" id="8_vsp63"]
 [ext_resource type="Script" uid="uid://deeuur32tptas" path="res://util/2d/shaky_node_2d.gd" id="9_vsp63"]
 [ext_resource type="Script" uid="uid://b6si8gwrj7oa1" path="res://transition/transition.gd" id="10_3vho3"]
 [ext_resource type="Texture2D" uid="uid://dv7d3jrewweqj" path="res://game/texture/texture_backdrop_red.png" id="10_qf6n1"]
 [ext_resource type="Texture2D" uid="uid://ct3dchaamuval" path="res://transition/texture/texture_transition_square.png" id="11_qf6n1"]
+
+[sub_resource type="Gradient" id="Gradient_pxxsx"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1)
+colors = PackedColorArray(1, 0, 0.3019608, 1, 1, 0.46666667, 0.65882355, 1, 0, 0.89411765, 0.21176471, 1, 1, 0.6392157, 0, 1, 0.16078432, 0.6784314, 1, 1, 1, 0, 0.3019608, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="Animation" id="Animation_ln7ps"]
+resource_name = "default"
+length = 4.0
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Mouse:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.1, 3.8),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector2(160, 140), Vector2(160, 148), Vector2(160, 140)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/path = NodePath("Mouse/Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 2, 2.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, false, true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/path = NodePath("Mouse/Sprite2D2:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1, 1.5, 2, 3, 3.5, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, false, true, false, false, true, false]
+}
+
+[sub_resource type="Animation" id="Animation_pxxsx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Mouse:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(160, 144)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Mouse/Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Mouse/Sprite2D2:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u8s88"]
+_data = {
+&"RESET": SubResource("Animation_pxxsx"),
+&"default": SubResource("Animation_ln7ps")
+}
 
 [sub_resource type="LabelSettings" id="LabelSettings_l8g03"]
 font = ExtResource("3_h7iqs")
@@ -81,6 +177,34 @@ region_enabled = true
 region_rect = Rect2(0, 0, 320, 180)
 script = ExtResource("3_y36n6")
 speed = Vector2(-32, -32)
+
+[node name="Mouse" type="Sprite2D" parent="CanvasLayer" node_paths=PackedStringArray("button_left", "button_right")]
+position = Vector2(160, 144)
+texture = ExtResource("7_ee6o4")
+script = ExtResource("8_ln7ps")
+gradient = SubResource("Gradient_pxxsx")
+button_left = NodePath("Sprite2D")
+button_right = NodePath("Sprite2D2")
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Mouse"]
+visible = false
+modulate = Color(1, 0, 0.3019608, 1)
+position = Vector2(-5, -7)
+texture = ExtResource("8_4cobl")
+
+[node name="Sprite2D2" type="Sprite2D" parent="CanvasLayer/Mouse"]
+visible = false
+modulate = Color(1, 0, 0.3019608, 1)
+position = Vector2(6, -7)
+texture = ExtResource("8_4cobl")
+flip_h = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Mouse"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_u8s88")
+}
+autoplay = "default"
 
 [node name="Flash" type="ColorRect" parent="CanvasLayer"]
 modulate = Color(1, 1, 1, 0)
@@ -281,6 +405,7 @@ color = Color(0.37254903, 0.34117648, 0.30980393, 0.5019608)
 [node name="GameOver" type="CanvasLayer" parent="."]
 
 [node name="Control" type="Control" parent="GameOver"]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
