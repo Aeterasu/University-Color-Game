@@ -1,0 +1,199 @@
+[gd_scene load_steps=14 format=3 uid="uid://6ex5s06ou3qk"]
+
+[ext_resource type="Script" uid="uid://dtkxa8dkrltds" path="res://booklet/booklet.gd" id="1_kojfk"]
+[ext_resource type="Texture2D" uid="uid://b03anquf36uvq" path="res://game/texture/texture_backdrop_inv.png" id="2_2luvn"]
+[ext_resource type="Script" uid="uid://bu7ad7dmsqyo0" path="res://game/backdrop_layer.gd" id="3_8xb7u"]
+[ext_resource type="Texture2D" uid="uid://3q7av2l2dtyn" path="res://booklet/texture/texture_logo.png" id="4_8xb7u"]
+[ext_resource type="Texture2D" uid="uid://dht4tcvy0i2tg" path="res://booklet/texture/texture_logo_white.png" id="4_ua133"]
+[ext_resource type="FontFile" uid="uid://cmwdqs0ltl7kq" path="res://ui/font/Silver.ttf" id="6_lsn1l"]
+
+[sub_resource type="Gradient" id="Gradient_lsn1l"]
+offsets = PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1)
+colors = PackedColorArray(1, 0, 0.3019608, 1, 1, 0.46666667, 0.65882355, 1, 0, 0.89411765, 0.21176471, 1, 0.16078432, 0.6784314, 1, 1, 1, 0.6392157, 0, 1, 1, 0, 0.3019608, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_ua133"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2, 0.3, 0.6, 0.7, 1)
+colors = PackedColorArray(1, 0, 0.3019608, 1, 1, 0.46666667, 0.65882355, 1, 0, 0.89411765, 0.21176471, 1, 1, 0.6392157, 0, 1, 0.16078432, 0.6784314, 1, 1, 1, 0, 0.3019608, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lsn1l"]
+gradient = SubResource("Gradient_ua133")
+width = 256
+height = 96
+
+[sub_resource type="LabelSettings" id="LabelSettings_8b4ik"]
+paragraph_spacing = -12.0
+font = ExtResource("6_lsn1l")
+font_size = 19
+font_color = Color(1, 0.94509804, 0.9098039, 1)
+
+[sub_resource type="Animation" id="Animation_lsn1l"]
+resource_name = "default"
+length = 3.0
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Page1/LogoPivot:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 16), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_8b4ik"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Page1/LogoPivot:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3a5t5"]
+_data = {
+&"RESET": SubResource("Animation_8b4ik"),
+&"default": SubResource("Animation_lsn1l")
+}
+
+[node name="Booklet" type="Node" node_paths=PackedStringArray("camera", "rich_text")]
+script = ExtResource("1_kojfk")
+camera = NodePath("Camera2D")
+rich_text = NodePath("Page2/ColorRect/RichTextLabel")
+gradient = SubResource("Gradient_lsn1l")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+follow_viewport_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+texture_repeat = 2
+texture = ExtResource("2_2luvn")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 320, 540)
+script = ExtResource("3_8xb7u")
+speed = Vector2(-32, -32)
+
+[node name="Page1" type="Node2D" parent="."]
+
+[node name="LogoPivot" type="Node2D" parent="Page1"]
+
+[node name="Logo2" type="Sprite2D" parent="Page1/LogoPivot"]
+modulate = Color(1, 0.94509804, 0.9098039, 1)
+show_behind_parent = true
+z_as_relative = false
+position = Vector2(162, 35)
+texture = ExtResource("4_ua133")
+
+[node name="Logo" type="Sprite2D" parent="Page1/LogoPivot"]
+clip_children = 2
+position = Vector2(160, 32)
+texture = ExtResource("4_8xb7u")
+
+[node name="Sprite2D" type="Sprite2D" parent="Page1/LogoPivot/Logo"]
+texture_repeat = 2
+texture = SubResource("GradientTexture2D_lsn1l")
+region_enabled = true
+region_rect = Rect2(0, 0, 256, 96)
+script = ExtResource("3_8xb7u")
+speed = Vector2(-128, 0)
+
+[node name="ColorRect" type="ColorRect" parent="Page1"]
+offset_top = 114.0
+offset_right = 320.0
+offset_bottom = 127.0
+color = Color(0.37254903, 0.34117648, 0.30980393, 1)
+
+[node name="Label" type="Label" parent="Page1/ColorRect"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -52.5
+offset_right = 1.0
+offset_bottom = 59.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Click to START!"
+label_settings = SubResource("LabelSettings_8b4ik")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Page2" type="Node2D" parent="."]
+position = Vector2(0, 180)
+
+[node name="ColorRect" type="ColorRect" parent="Page2"]
+offset_top = 29.0
+offset_right = 320.0
+offset_bottom = 125.0
+color = Color(0.37254903, 0.34117648, 0.30980393, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Page2/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(1, 0.94509804, 0.9098039, 1)
+theme_override_constants/line_separation = -4
+theme_override_constants/paragraph_separation = -7
+theme_override_fonts/normal_font = ExtResource("6_lsn1l")
+theme_override_font_sizes/normal_font_size = 19
+bbcode_enabled = true
+text = "[center]Words will appear on the screen in different colors.
+
+If the word matches its color, click the left button. If it doesn’t match, click the right button.
+
+Respond as quickly as you can and score points!"
+scroll_active = false
+shortcut_keys_enabled = false
+
+[node name="ColorRect2" type="ColorRect" parent="Page2"]
+offset_top = 159.0
+offset_right = 320.0
+offset_bottom = 172.0
+color = Color(0.37254903, 0.34117648, 0.30980393, 1)
+
+[node name="Label" type="Label" parent="Page2/ColorRect2"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -52.5
+offset_right = 1.0
+offset_bottom = 59.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Got it!"
+label_settings = SubResource("LabelSettings_8b4ik")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_3a5t5")
+}
+autoplay = "default"

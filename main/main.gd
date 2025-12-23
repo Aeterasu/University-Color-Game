@@ -25,7 +25,7 @@ static var instance : Main = null
 func _ready() -> void:
 	instance = self
 
-	load_state(State.GAME)
+	load_state(State.BOOKLET)
 
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	
