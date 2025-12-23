@@ -1,9 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3pk524ux46sg"]
+[gd_scene load_steps=5 format=3 uid="uid://c3pk524ux46sg"]
 
 [ext_resource type="Script" uid="uid://cpsip1f3763gw" path="res://main/main.gd" id="1_53q0u"]
 [ext_resource type="PackedScene" uid="uid://gt53yron4ijd" path="res://game/game.tscn" id="2_pjrb6"]
+[ext_resource type="Script" uid="uid://b6si8gwrj7oa1" path="res://transition/transition.gd" id="3_xwkvk"]
+[ext_resource type="Texture2D" uid="uid://ct3dchaamuval" path="res://transition/texture/texture_transition_square.png" id="4_c651c"]
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" node_paths=PackedStringArray("transition")]
 script = ExtResource("1_53q0u")
+transition = NodePath("CanvasLayer/Transition")
+game_scene = ExtResource("2_pjrb6")
 
-[node name="Game" parent="." instance=ExtResource("2_pjrb6")]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 1024
+
+[node name="Transition" type="Node2D" parent="CanvasLayer"]
+script = ExtResource("3_xwkvk")
+color = Color(1, 0.94509804, 0.9098039, 1)
+texture = ExtResource("4_c651c")
+metadata/_custom_type_script = "uid://b6si8gwrj7oa1"
