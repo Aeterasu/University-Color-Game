@@ -9,6 +9,7 @@ var current_question : Question = null
 var time_limit : TimeLimit = null
 
 @export var score_label : Label = null
+@export var best_label : Label = null
 var scoring : Scoring = null
 
 @export var flash : ColorRect = null
@@ -17,8 +18,16 @@ var answer_count : int = 0
 
 var game_over : bool = false
 @export var game_over_screen : Control = null
+@export var game_over_score_label : Label = null
+@export var game_over_best_label : Label = null
+@export var game_over_screen_backdrop : Sprite2D = null
+@export var texture_game_over_screen_red : Texture2D = null
+@export var texture_game_over_screen_blue : Texture2D = null
+@export var texture_game_over_screen_green : Texture2D = null
 
 @export var particles : CPUParticles2D = null
+
+@export var screen_shake : ShakyNode2D = null
 
 @export var transition : Transition = null
 
@@ -50,9 +59,11 @@ func _physics_process(delta: float) -> void:
 		time_progress_bar.value = time_limit.time_left
 
 	if scoring:
-		score_label.text = str(scoring.score) + " SCORE"\
-		+ "\n" +\
-		str(scoring.personal_best) + " BEST"
+		score_label.text = "\n" + str(scoring.score)
+		best_label.text = "\n" + str(Scoring.personal_best)
+
+		game_over_score_label.text = "SCORE: " + str(scoring.score)
+		game_over_best_label.text = "BEST: " + str(Scoring.personal_best)
 
 	if Input.is_action_just_pressed("input_confirm"):
 		confirm()
@@ -145,11 +156,25 @@ func on_ran_out_of_time() -> void:
 	fail()
 
 func fail() -> void:
+	screen_shake.shake(4.0)
+
 	time_limit.is_stopped = true
 	game_over = true
 
 	transition.color = Stroop.get_color_value(current_question.text_color)
 	transition.animate()
+
+	var texture : Texture2D = texture_game_over_screen_red
+
+	match current_question.text_color:
+		Stroop.Colors.RED:
+			texture = texture_game_over_screen_red
+		Stroop.Colors.GREEN:
+			texture = texture_game_over_screen_green
+		Stroop.Colors.BLUE:
+			texture = texture_game_over_screen_blue
+	
+	game_over_screen_backdrop.texture = texture
 
 func on_game_over_transition() -> void:
 	game_over_screen.show()

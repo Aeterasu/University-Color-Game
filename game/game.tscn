@@ -1,24 +1,24 @@
-[gd_scene load_steps=19 format=3 uid="uid://gt53yron4ijd"]
+[gd_scene load_steps=22 format=3 uid="uid://gt53yron4ijd"]
 
 [ext_resource type="Script" uid="uid://bofuuilv7o8gi" path="res://game/game.gd" id="1_l1rk1"]
 [ext_resource type="Texture2D" uid="uid://emjva1qr1hq0" path="res://game/texture/texture_backdrop.png" id="2_u5opy"]
-[ext_resource type="FontFile" uid="uid://dh8sgn0vm5qi3" path="res://ui/font/superstar_memesbruh03.ttf" id="2_vasa2"]
 [ext_resource type="FontFile" uid="uid://bcupa6g6wumqc" path="res://ui/font/m6x11.ttf" id="3_h7iqs"]
+[ext_resource type="Texture2D" uid="uid://dxaasjxljgsqn" path="res://game/texture/texture_backdrop_green.png" id="3_hb504"]
 [ext_resource type="Script" uid="uid://bu7ad7dmsqyo0" path="res://game/backdrop_layer.gd" id="3_y36n6"]
 [ext_resource type="Texture2D" uid="uid://c1ci4dl6ogqoc" path="res://fx/texture/texture_fx_particle.png" id="4_4fuuu"]
 [ext_resource type="Texture2D" uid="uid://b46fagudgepas" path="res://game/texture/texture_progress_bar.png" id="4_dakft"]
+[ext_resource type="Texture2D" uid="uid://cjfxf6kk1t428" path="res://game/texture/texture_backdrop_blue.png" id="4_ee6o4"]
 [ext_resource type="Texture2D" uid="uid://toqoskjerrr5" path="res://game/texture/texture_panel_1.png" id="4_l8g03"]
 [ext_resource type="Texture2D" uid="uid://b4sbx8p75vl8l" path="res://game/texture/texture_progress_bar_fill.png" id="5_u5opy"]
+[ext_resource type="Texture2D" uid="uid://bm5wbcnk8r76i" path="res://game/texture/texture_nine_panel.png" id="8_vsp63"]
+[ext_resource type="Script" uid="uid://deeuur32tptas" path="res://util/2d/shaky_node_2d.gd" id="9_vsp63"]
 [ext_resource type="Script" uid="uid://b6si8gwrj7oa1" path="res://transition/transition.gd" id="10_3vho3"]
-[ext_resource type="Texture2D" uid="uid://dv7d3jrewweqj" path="res://game/texture/texture_backdrop_1.png" id="10_qf6n1"]
+[ext_resource type="Texture2D" uid="uid://dv7d3jrewweqj" path="res://game/texture/texture_backdrop_red.png" id="10_qf6n1"]
 [ext_resource type="Texture2D" uid="uid://ct3dchaamuval" path="res://transition/texture/texture_transition_square.png" id="11_qf6n1"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_l8g03"]
 font = ExtResource("3_h7iqs")
 font_color = Color(1, 0.94509804, 0.9098039, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_h7iqs"]
-font = ExtResource("2_vasa2")
 
 [sub_resource type="LabelSettings" id="LabelSettings_vasa2"]
 font = ExtResource("3_h7iqs")
@@ -26,6 +26,11 @@ font_size = 32
 stacked_shadow_count = 1
 stacked_shadow_0/offset = Vector2(1, 1)
 stacked_shadow_0/color = Color(0.37254903, 0.34117648, 0.30980393, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_h7iqs"]
+paragraph_spacing = -14.0
+font = ExtResource("3_h7iqs")
+font_color = Color(1, 0.94509804, 0.9098039, 1)
 
 [sub_resource type="Curve" id="Curve_4fuuu"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.060000002, 1), 0.0, 0.0, 0, 0, Vector2(0.716, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -44,20 +49,29 @@ font_color = Color(1, 0.94509804, 0.9098039, 1)
 shadow_size = 4
 shadow_color = Color(0.16078432, 0.09411765, 0.078431375, 1)
 
-[node name="Game" type="Node" node_paths=PackedStringArray("label_center", "label", "padding", "time_progress_bar", "score_label", "flash", "game_over_screen", "particles", "transition")]
+[node name="Game" type="Node" node_paths=PackedStringArray("label_center", "label", "padding", "time_progress_bar", "score_label", "best_label", "flash", "game_over_screen", "game_over_score_label", "game_over_best_label", "game_over_screen_backdrop", "particles", "screen_shake", "transition")]
 script = ExtResource("1_l1rk1")
 label_center = NodePath("CanvasLayer/CenterContainer")
 label = NodePath("CanvasLayer/CenterContainer/Label")
 padding = NodePath("CanvasLayer/Padding")
 time_progress_bar = NodePath("CanvasLayer/ProgressBar")
 score_label = NodePath("CanvasLayer/ScoreLabel")
+best_label = NodePath("CanvasLayer/BestLabel")
 flash = NodePath("CanvasLayer/Flash")
 game_over_screen = NodePath("GameOver/Control")
+game_over_score_label = NodePath("GameOver/Control/ColorRect/Label2")
+game_over_best_label = NodePath("GameOver/Control/ColorRect/Label3")
+game_over_screen_backdrop = NodePath("GameOver/Control/ColorRect/Sprite2D")
+texture_game_over_screen_red = ExtResource("10_qf6n1")
+texture_game_over_screen_blue = ExtResource("4_ee6o4")
+texture_game_over_screen_green = ExtResource("3_hb504")
 particles = NodePath("CanvasLayer2/CPUParticles2D")
-transition = NodePath("GameOver/Transition")
+screen_shake = NodePath("ShakyNode2D")
+transition = NodePath("CanvasLayer4/Transition")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -128
+follow_viewport_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
 texture_repeat = 2
@@ -111,19 +125,6 @@ label_settings = SubResource("LabelSettings_l8g03")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ScoreLabel" type="Label" parent="CanvasLayer"]
-visible = false
-modulate = Color(0.7607843, 0.7647059, 0.78039217, 1)
-offset_left = 222.0
-offset_top = 20.0
-offset_right = 319.0
-offset_bottom = 55.0
-text = "SCORE: 0
-BEST: 999"
-label_settings = SubResource("LabelSettings_h7iqs")
-horizontal_alignment = 2
-vertical_alignment = 1
-
 [node name="Padding" type="ColorRect" parent="CanvasLayer"]
 modulate = Color(1, 1, 1, 0.5019608)
 custom_minimum_size = Vector2(320, 32)
@@ -164,7 +165,82 @@ texture_under = ExtResource("4_dakft")
 texture_progress = ExtResource("5_u5opy")
 texture_progress_offset = Vector2(3, 3)
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="ScoreLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.837
+anchor_top = 0.11100001
+anchor_right = 0.837
+anchor_bottom = 0.20600002
+offset_left = -18.839996
+offset_top = 0.01999855
+offset_right = 0.16000366
+offset_bottom = -0.08000183
+grow_horizontal = 0
+size_flags_horizontal = 0
+text = "
+0"
+label_settings = SubResource("LabelSettings_h7iqs")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/ScoreLabel"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_vsp63")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="BestLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.837
+anchor_top = 0.11100001
+anchor_right = 0.837
+anchor_bottom = 0.20600002
+offset_left = -18.839996
+offset_top = 19.019999
+offset_right = 0.16000366
+offset_bottom = 18.919998
+grow_horizontal = 0
+size_flags_horizontal = 0
+text = "
+0"
+label_settings = SubResource("LabelSettings_h7iqs")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/BestLabel"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_vsp63")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="ShakyNode2D" type="Node2D" parent="."]
+script = ExtResource("9_vsp63")
+decay_rate = 12.0
+metadata/_custom_type_script = "uid://deeuur32tptas"
+
+[node name="Camera2D" type="Camera2D" parent="ShakyNode2D"]
 anchor_mode = 0
 ignore_rotation = false
 
@@ -190,6 +266,17 @@ initial_velocity_max = 232.92
 scale_amount_min = 0.5
 scale_amount_max = 3.0
 scale_amount_curve = SubResource("Curve_4fuuu")
+
+[node name="Promo" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Promo"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.37254903, 0.34117648, 0.30980393, 0.5019608)
 
 [node name="GameOver" type="CanvasLayer" parent="."]
 
@@ -315,7 +402,9 @@ label_settings = SubResource("LabelSettings_qf6n1")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Transition" type="Node2D" parent="GameOver"]
+[node name="CanvasLayer4" type="CanvasLayer" parent="."]
+
+[node name="Transition" type="Node2D" parent="CanvasLayer4"]
 script = ExtResource("10_3vho3")
 color = Color(0.7607843, 0.7647059, 0.78039217, 1)
 texture = ExtResource("11_qf6n1")
