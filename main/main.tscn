@@ -1,14 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://c3pk524ux46sg"]
+[gd_scene load_steps=8 format=3 uid="uid://c3pk524ux46sg"]
 
 [ext_resource type="Script" uid="uid://cpsip1f3763gw" path="res://main/main.gd" id="1_53q0u"]
 [ext_resource type="PackedScene" uid="uid://gt53yron4ijd" path="res://game/game.tscn" id="2_pjrb6"]
 [ext_resource type="PackedScene" uid="uid://6ex5s06ou3qk" path="res://booklet/booklet.tscn" id="3_3wy1v"]
 [ext_resource type="Script" uid="uid://b6si8gwrj7oa1" path="res://transition/transition.gd" id="3_xwkvk"]
 [ext_resource type="Texture2D" uid="uid://ct3dchaamuval" path="res://transition/texture/texture_transition_square.png" id="4_c651c"]
+[ext_resource type="AudioStream" uid="uid://bn0wxokkvo752" path="res://game/audio/sfx_whoosh.mp3" id="6_4dugh"]
+[ext_resource type="AudioStream" uid="uid://b8ot3otqcs44r" path="res://game/audio/sfx_staccato_shot_1.ogg" id="7_67ri8"]
 
-[node name="Main" type="Node" node_paths=PackedStringArray("transition")]
+[node name="Main" type="Node" node_paths=PackedStringArray("transition", "audio_whoosh", "audio_click")]
 script = ExtResource("1_53q0u")
 transition = NodePath("CanvasLayer/Transition")
+audio_whoosh = NodePath("Whoosh")
+audio_click = NodePath("Click")
 game_scene = ExtResource("2_pjrb6")
 booklet_scene = ExtResource("3_3wy1v")
 
@@ -20,3 +24,9 @@ script = ExtResource("3_xwkvk")
 color = Color(1, 0.94509804, 0.9098039, 1)
 texture = ExtResource("4_c651c")
 metadata/_custom_type_script = "uid://b6si8gwrj7oa1"
+
+[node name="Whoosh" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_4dugh")
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_67ri8")

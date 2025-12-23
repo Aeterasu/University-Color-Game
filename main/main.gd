@@ -11,6 +11,9 @@ enum State
 var transition_lerp_y : float = 0.0
 var transition_lerp_x : float = 0.0
 
+@export var audio_whoosh : AudioStreamPlayer = null
+@export var audio_click : AudioStreamPlayer = null
+
 @export_group("State")
 @export var game_scene : PackedScene = null
 @export var booklet_scene : PackedScene = null
@@ -33,6 +36,12 @@ func _physics_process(delta: float) -> void:
 	if currently_loaded and currently_loaded is Node2D:
 		currently_loaded.position.x = Jelly.jelly_preset(transition_lerp_x, 0.0, 0.0, Jelly.JellyPreset.BOUNCY)
 		currently_loaded.position.y = Jelly.jelly_preset(transition_lerp_y, -12.0, 0.0, Jelly.JellyPreset.BOUNCY)
+
+	if Input.is_action_just_pressed("input_confirm"):
+		audio_click.play()
+
+	if Input.is_action_just_pressed("input_deny"):
+		audio_click.play()
 
 func load_state(state : State) -> void:
 	get_tree().paused = false

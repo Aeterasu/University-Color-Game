@@ -32,6 +32,11 @@ var await_restart_input : bool = false
 
 @export var transition : Transition = null
 
+@export var game_over_audio : AudioStreamPlayer = null
+@export var success_audio : AudioStreamPlayer = null
+@export var countdown_audio : AudioStreamPlayer = null
+@export var start_audio : AudioStreamPlayer = null
+
 func _ready() -> void:
 	scoring = Scoring.new()
 	time_limit = TimeLimit.new()
@@ -44,6 +49,8 @@ func _ready() -> void:
 	game_over_screen.hide()
 
 	generate_new_question()
+
+	start_audio.play()
 
 func _input(event: InputEvent) -> void:
 	if event.is_pressed() and (event is InputEventKey):
@@ -156,6 +163,8 @@ func on_correct_answer() -> void:
 
 	scoring.award_score()
 
+	success_audio.play()
+
 func on_wrong_answer() -> void:
 	fail()
 
@@ -184,6 +193,8 @@ func fail() -> void:
 	game_over_screen_backdrop.texture = texture
 
 	get_tree().create_timer(0.8).timeout.connect(func(): await_restart_input = true)
+
+	game_over_audio.play()
 
 func on_game_over_transition() -> void:
 	game_over_screen.show()

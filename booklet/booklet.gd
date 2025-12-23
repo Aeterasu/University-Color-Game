@@ -17,6 +17,8 @@ func _physics_process(delta: float) -> void:
 		Input.is_action_just_pressed("input_deny"):
 			booklet_stage += 1
 
+			Main.instance.audio_whoosh.play()
+
 			if booklet_stage == 2:
 				Main.instance.load_state(Main.State.GAME)
 				return
